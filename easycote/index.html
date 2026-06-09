@@ -449,9 +449,9 @@ async function fetchAI(m,best,c1,cN,c2,p1,pN,p2,w1,d,w2){
   const el=document.getElementById('ai-zone');
   if(!el)return;
   try{
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+    const resp=await fetch('https:///api/football',{
       method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':ANTHROPIC_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      headers:{'Content-Type':'application/json','Content-Type':'application/json'},
       body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,messages:[{role:'user',content:`Tu es analyste football expert. Analyse ce match en 3-4 phrases professionnelles en français. Mentionne les forces/faiblesses, le H2H, et conclus par la mise la plus intéressante.
 
 Match: ${m.homeTeam?.name} vs ${m.awayTeam?.name} (${LEAGUE_NAMES[m.leagueCode]||''})
