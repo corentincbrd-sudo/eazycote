@@ -324,12 +324,12 @@ async function selectMatch(id){
   det.innerHTML='<div class="loading-wrap"><div class="spinner"></div><div class="loading-txt">Chargement de l\'analyse...</div></div>';
   det.scrollIntoView({behavior:'smooth',block:'start'});
   try{
-    const[md,h2d,sq1,sq2]=await Promise.all([
+    const md=await apiFetch(`/matches/${id}`); const h2d=await apiFetch(`/matches/${id}/head2head`,{limit:5}); const sq1=await apiFetch(`/teams/${selMatch.homeTeam?.id}`); const sq2=await apiFetch(`/teams/${selMatch.awayTeam?.id}`);
       apiFetch(`/matches/${id}`),
       apiFetch(`/matches/${id}/head2head`,{limit:5}),
       apiFetch(`/teams/${selMatch.homeTeam?.id}`),
       apiFetch(`/teams/${selMatch.awayTeam?.id}`)
-    ]);
+   
     selMatch={...selMatch,...(md.match||md)};
     selMatch.h2hData=h2d;
     selMatch.squad1=sq1;
