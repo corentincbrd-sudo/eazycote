@@ -296,7 +296,7 @@ async function selectMatch(id) {
   try {
     var md = await apiFetch('/matches/'+id);
     await sleep(1000);
-    var h2d = await apiFetch('/matches/'+id+'/head2head', {limit:5});
+    var h2d = {}; try { await sleep(1500); h2d = await apiFetch('/matches/'+id+'/head2head', {limit:5}); } catch(e) {}
     if(md.match) { for(var k in md.match){selMatch[k]=md.match[k];} }
     selMatch.h2hData = h2d;
     renderDetail();
