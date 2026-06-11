@@ -3,6 +3,7 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
+  // POST = appel IA Anthropic
   if (req.method === 'POST') {
     try {
       const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -21,11 +22,25 @@ export default async function handler(req, res) {
     }
   }
 
-  const { path, ...params } = req.query;
+  const { path, source, ...params } = req.query;
+
+  // Appel The Odds API
+  if (source === 'odds') {
+    try {
+      const q = new URLSearchParams(params).toString();
+      const url = `https://api.the-odds-api.com/v4${path}?apiKey=5ecfe5affbae9650142705647b9cc620${q ? '&' + q : ''}`;
+      const response = await fetch(url);
+      const data = await response.json();
+      return res.status(response.status).json(data);
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
+  }
+
+  // Appel Football-Data.org
   if (!path) return res.status(400).json({ error: 'Missing path' });
   const query = new URLSearchParams(params).toString();
   const url = `https://api.football-data.org/v4${path}${query ? '?' + query : ''}`;
-
   try {
     const response = await fetch(url, {
       headers: { 'X-Auth-Token': '75e23d8a6a9941efb0f96b399b47b7fb' }
