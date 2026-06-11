@@ -419,7 +419,7 @@ function renderDetail(){
     p1=Math.round(1/bestOdds.best1*100);
     p2=Math.round(1/bestOdds.best2*100);
     pN=bestOdds.bestN>0?Math.round(1/bestOdds.bestN*100):100-p1-p2;
-    bestLbl=bestOdds.best1>bestOdds.best2?h1:h2;
+    bestLbl=bestOdds.best1<bestOdds.best2?h1:h2; bestC=bestOdds.best1<bestOdds.best2?c1:c2; bestP=bestOdds.best1<bestOdds.best2?p1:p2;.best1>bestOdds.best2?h1:h2;
     bestC=bestOdds.best1>bestOdds.best2?c1:c2;
     bestP=bestOdds.best1>bestOdds.best2?p1:p2;
   } else {
