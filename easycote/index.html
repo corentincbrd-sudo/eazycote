@@ -227,13 +227,13 @@ async function loadMatches() {
   document.getElementById('match-detail').innerHTML = '';
   selMatch = null;
   try {
-    var leagues = curLeague==='all' ? ['PL','PD','SA','BL1','FL1','WC'] : [curLeague];
+    var leagues = curLeague==='all' ? ['WC','PL'] : [curLeague];
     var matches = [];
     for(var i=0; i<leagues.length; i++) {
       var lg = leagues[i];
       try {
         if(i>0) await sleep(1500);
-        var today = new Date(); var from = today.toISOString().split('T')[0]; var toD = new Date(today); toD.setDate(toD.getDate()+7); var to = toD.toISOString().split('T')[0]; var data = await apiFetch('/competitions/'+lg+'/matches', {dateFrom:from, dateTo:to, status:'SCHEDULED,IN_PLAY,PAUSED,FINISHED'});
+        var data = await apiFetch('/competitions/'+lg+'/matches');
         if(data.matches) {
           for(var j=0; j<data.matches.length; j++) {
             data.matches[j].leagueCode = lg;
@@ -254,7 +254,8 @@ function renderMatchList() {
   var list = document.getElementById('match-list');
   if(!allMatches.length){list.innerHTML='<div class="error-box">Aucun match trouve.</div>';return;}
   var html = '';
-  html += '<div class="sec-title" style="margin-bottom:12px;font-size:13px;color:var(--green-l)">Matchs de la semaine - '+allMatches.length+' matchs</div>'; html += '<div class="sec-title" style="margin-bottom:12px;font-size:13px;color:var(--green-l)">Matchs de la semaine - '+allMatches.length+' matchs</div>'; html += '<div class="sec-title" style="margin-bottom:12px;font-size:13px;color:var(--green-l)">Matchs de la semaine - '+allMatches.length+' matchs</div>'; var lastD = ''; for(var i=0; i<allMatches.length; i++) {     var m = allMatches[i];     var d = formatDate(m.utcDate);     if(d!==lastD){html+='<div class="sec-title" for(var i=0; i<allMatches.length; i++) {     var m = allMatches[i];     var d = formatDate(m.utcDate);     if(d!==lastD){html+='<div class="sec-title" for(var i=0; i<allMatches.length; i++) {     var m = allMatches[i];     var d = formatDate(m.utcDate);     if(d!==lastD){html+='<div class="sec-title"
+  html += '<div style="font-size:13px;font-weight:500;color:#3FB950;margin-bottom:12px;padding:6px 0;border-bottom:1px solid #30363D">Matchs de la semaine</div>';
+var lastD = '';
   for(var i=0; i<allMatches.length; i++) {
     var m = allMatches[i];
     var d = formatDate(m.utcDate);
@@ -296,7 +297,7 @@ async function selectMatch(id) {
   try {
     var md = await apiFetch('/matches/'+id);
     await sleep(1000);
-    var h2d = {}; try { await sleep(1500); h2d = await apiFetch('/matches/'+id+'/head2head', {limit:5}); } catch(e) {}
+    var h2d = await apiFetch('/matches/'+id+'/head2head', {limit:5});
     if(md.match) { for(var k in md.match){selMatch[k]=md.match[k];} }
     selMatch.h2hData = h2d;
     renderDetail();
