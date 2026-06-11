@@ -416,12 +416,15 @@ function renderDetail(){
     c1=bestOdds.best1.toFixed(2);
     cN=bestOdds.bestN>0?bestOdds.bestN.toFixed(2):'--';
     c2=bestOdds.best2.toFixed(2);
-    var avgC1=0,avgC2=0,count=0; for(var bi=0;bi<bestOdds.bookmakers.length;bi++){avgC1+=bestOdds.bookmakers[bi].c1;avgC2+=bestOdds.bookmakers[bi].c2;count++;} if(count>0){avgC1=avgC1/count;avgC2=avgC2/count;} p1=Math.round(1/avgC1*100); p2=Math.round(1/avgC2*100); bestLbl=avgC1<avgC2?h1:h2; bestC=avgC1<avgC2?bestOdds.best1.toFixed(2):bestOdds.best2.toFixed(2); bestP=avgC1<avgC2?p1:p2;(1/bestOdds.best1*100);
-    p2=Math.round(1/bestOdds.best2*100);
+    var avgC1=0,avgC2=0,cnt=0;
+    for(var bi=0;bi<bestOdds.bookmakers.length;bi++){avgC1+=bestOdds.bookmakers[bi].c1;avgC2+=bestOdds.bookmakers[bi].c2;cnt++;}
+    if(cnt>0){avgC1=avgC1/cnt;avgC2=avgC2/cnt;}
+    p1=Math.round((1/avgC1)*100);
+    p2=Math.round((1/avgC2)*100);
     pN=bestOdds.bestN>0?Math.round(1/bestOdds.bestN*100):100-p1-p2;
-    bestLbl=bestOdds.best1<bestOdds.best2?h1:h2; bestC=bestOdds.best1<bestOdds.best2?c1:c2; bestP=bestOdds.best1<bestOdds.best2?p1:p2;.best1>bestOdds.best2?h1:h2;
-    bestC=bestOdds.best1>bestOdds.best2?c1:c2;
-    bestP=bestOdds.best1>bestOdds.best2?p1:p2;
+    bestLbl=avgC1<avgC2?h1:h2;
+    bestC=avgC1<avgC2?c1:c2;
+    bestP=avgC1<avgC2?p1:p2;
   } else {
     p1=45;pN=25;p2=30;
     c1=(1/(p1/100)*0.94).toFixed(2);cN=(1/(pN/100)*0.94).toFixed(2);c2=(1/(p2/100)*0.94).toFixed(2);
