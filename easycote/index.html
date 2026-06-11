@@ -233,7 +233,7 @@ async function loadMatches() {
       var lg = leagues[i];
       try {
         if(i>0) await sleep(1500);
-        var data = await apiFetch('/competitions/'+lg+'/matches');
+        var today = new Date(); var from = today.toISOString().split('T')[0]; var toD = new Date(today); toD.setDate(toD.getDate()+7); var to = toD.toISOString().split('T')[0]; var data = await apiFetch('/competitions/'+lg+'/matches', {dateFrom:from, dateTo:to, status:'SCHEDULED,IN_PLAY,PAUSED,FINISHED'});
         if(data.matches) {
           for(var j=0; j<data.matches.length; j++) {
             data.matches[j].leagueCode = lg;
