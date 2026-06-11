@@ -227,7 +227,7 @@ async function loadMatches() {
   document.getElementById('match-detail').innerHTML = '';
   selMatch = null;
   try {
-    var leagues = curLeague==='all' ? ['WC'] : [curLeague];
+    var leagues = curLeague==='all' ? ['PL','PD','SA','BL1','FL1','WC'] : [curLeague];
     var matches = [];
     for(var i=0; i<leagues.length; i++) {
       var lg = leagues[i];
