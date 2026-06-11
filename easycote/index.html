@@ -354,7 +354,7 @@ function renderMatchList(){
 
     var cotesHtml='';
     if(bestOdds&&bestOdds.bookmakers.length){
-      var best=bestOdds.best1>bestOdds.best2?'1':'2';
+      var best=bestOdds.best1<bestOdds.best2?'1':'2';
       cotesHtml+='<div class="cotes-section"><div class="cotes-label">Meilleure cote</div><div class="cotes-row">';
       cotesHtml+='<div class="cote-pill'+(best==='1'?' best':'')+'"><div class="cote-lbl">'+h1+'</div><div class="cote-val">'+bestOdds.best1.toFixed(2)+'</div>'+(best==='1'?'<div class="cote-tag">Meilleur</div>':'')+'</div>';
       if(bestOdds.bestN>0) cotesHtml+='<div class="cote-pill"><div class="cote-lbl">Nul</div><div class="cote-val">'+bestOdds.bestN.toFixed(2)+'</div></div>';
