@@ -507,7 +507,8 @@ async function fetchAI(m,bestLbl,c1,cN,c2,p1,pN,p2,w1,d,w2,bestC){
   var el=document.getElementById('ai-zone');
   if(!el)return;
   try{
-    var prompt='Tu es analyste football expert. Analyse ce match en francais en 2 parties. Partie 1: Analyse tactique en 3 phrases sur les forces, faiblesses et H2H. Partie 2: Liste exactement 4 paris recommandes avec ce format pour chacun: NOM DU PARI - Cote: xVALEUR - Confiance: Sur si probabilite >60%, Probable si 45-60%, Fun si moins de 45%. Match: '+(m.homeTeam&&m.homeTeam.name)+' vs '+(m.awayTeam&&m.awayTeam.name)+'. Probabilites: Dom='+p1+'%, Nul='+pN+'%, Ext='+p2+'%. Meilleure cote: '+bestLbl+' a x'+bestC+'. H2H: '+w1+'V / '+d+'N / '+w2+'D';\n\nMatch: '+(m.homeTeam&&m.homeTeam.name)+' vs '+(m.awayTeam&&m.awayTeam.name)+'\nProbabilites: Dom='+p1+'%, Nul='+pN+'%, Ext='+p2+'%\nMeilleure cote: '+bestLbl+' a x'+bestC+'\nH2H: '+w1+'V / '+d+'N / '+w2+'D';
+    var promptParts = ['Tu es analyste football expert. Reponds en francais.', 'Match: '+(m.homeTeam&&m.homeTeam.name||'?')+' vs '+(m.awayTeam&&m.awayTeam.name||'?'), 'Probabilites Dom='+p1+'pct Nul='+pN+'pct Ext='+p2+'pct', 'Meilleure cote '+bestLbl+' a x'+bestC, 'H2H '+w1+'V '+d+'N '+w2+'D', '3 phrases analyse tactique puis 4 paris format PARI xCOTE SurOuProbableOuFun', 'Sur si prob superieure a 60pct Probable si 45 a 60pct Fun si inferieur a 45pct'];
+    var prompt = promptParts.join('. ');
     var resp=await fetch('/api/football',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:500,messages:[{role:'user',content:prompt}]})});
     var data=await resp.json();
     var text=data.content&&data.content[0]?data.content[0].text:'';
