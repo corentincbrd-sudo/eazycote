@@ -507,7 +507,11 @@ async function fetchAI(m,bestLbl,c1,cN,c2,p1,pN,p2,w1,d,w2,bestC){
   var el=document.getElementById('ai-zone');
   if(!el)return;
   try{
-    var prompt='Tu es analyste football expert. Analyse ce match en 4-5 phrases professionnelles en francais. Conclus par la mise la plus interessante.\n\nMatch: '+(m.homeTeam&&m.homeTeam.name)+' vs '+(m.awayTeam&&m.awayTeam.name)+'\nProbabilites: Dom='+p1+'%, Nul='+pN+'%, Ext='+p2+'%\nMeilleure cote: '+bestLbl+' a x'+bestC+'\nH2H: '+w1+'V / '+d+'N / '+w2+'D';
+    var prompt='Tu es analyste football expert. Analyse ce match en francais en 2 parties:
+1) Analyse tactique en 3 phrases (forces, faiblesses, H2H)
+2) Liste exactement 4 paris recommandes sous ce format:
+- [NOM DU PARI] | Cote: x[VALEUR] | Confiance: [Sur/Probable/Fun]
+Bases-toi sur les probabilites reelles pour evaluer la confiance: Sur si >60%, Probable si 45-60%, Fun si <45%.\n\nMatch: '+(m.homeTeam&&m.homeTeam.name)+' vs '+(m.awayTeam&&m.awayTeam.name)+'\nProbabilites: Dom='+p1+'%, Nul='+pN+'%, Ext='+p2+'%\nMeilleure cote: '+bestLbl+' a x'+bestC+'\nH2H: '+w1+'V / '+d+'N / '+w2+'D';
     var resp=await fetch('/api/football',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:500,messages:[{role:'user',content:prompt}]})});
     var data=await resp.json();
     var text=data.content&&data.content[0]?data.content[0].text:'';
